@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 4.9.1
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 17 Mei 2019 pada 16.21
--- Versi Server: 10.1.19-MariaDB
--- PHP Version: 5.6.28
+-- Waktu pembuatan: 02 Mar 2020 pada 13.48
+-- Versi server: 10.4.8-MariaDB
+-- Versi PHP: 7.1.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -23,44 +25,45 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `barangkeluar`
+-- Struktur dari tabel `akun`
 --
 
-CREATE TABLE `barangkeluar` (
-  `kodekeluar` int(12) NOT NULL,
-  `jumlahkeluar` int(11) NOT NULL,
-  `hargajual` int(50) NOT NULL,
-  `tglkeluar` date NOT NULL,
-  `kodekartu` varchar(20) NOT NULL
+CREATE TABLE `akun` (
+  `id` varchar(10) NOT NULL,
+  `fullname` varchar(50) NOT NULL,
+  `username` varchar(30) NOT NULL,
+  `password` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `akun`
+--
+
+INSERT INTO `akun` (`id`, `fullname`, `username`, `password`) VALUES
+('123', 'admin', 'admin', 'admin');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `barangmasuk`
+-- Struktur dari tabel `barang`
 --
 
-CREATE TABLE `barangmasuk` (
-  `kodemasuk` int(12) NOT NULL,
-  `jumlahmasuk` int(11) NOT NULL,
-  `hargajualbarang` int(50) NOT NULL,
-  `tglmasuk` date NOT NULL,
-  `kodekartu` varchar(20) NOT NULL
+CREATE TABLE `barang` (
+  `kode_barang` varchar(50) NOT NULL,
+  `nama_barang` varchar(50) NOT NULL,
+  `harga_jual` int(11) NOT NULL,
+  `jumlah_barang` int(11) NOT NULL,
+  `limitasi` int(11) NOT NULL,
+  `id_kategori` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
 --
--- Struktur dari tabel `barangrefund`
+-- Dumping data untuk tabel `barang`
 --
 
-CREATE TABLE `barangrefund` (
-  `koderefund` varchar(50) NOT NULL,
-  `jumlahrefund` int(11) NOT NULL,
-  `hargabeli` int(50) NOT NULL,
-  `tglrefund` date NOT NULL,
-  `kodekartu` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `barang` (`kode_barang`, `nama_barang`, `harga_jual`, `jumlah_barang`, `limitasi`, `id_kategori`) VALUES
+('PA01', 'Padi A', 20000, 30, 10, 0),
+('PU01', 'Pupuk ABCD', 25000, 30, 10, 0);
 
 -- --------------------------------------------------------
 
@@ -73,112 +76,23 @@ CREATE TABLE `customers` (
   `namalengkap` varchar(50) NOT NULL,
   `alamatcustomers` varchar(50) NOT NULL,
   `notelp` varchar(12) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `customers`
---
-
-INSERT INTO `customers` (`idcustomers`, `namalengkap`, `alamatcustomers`, `notelp`) VALUES
-(101, 'Faizal Triandi', 'Banjaran', '085867333467'),
-(102, 'Rizki Saputra', 'Bojongsoang', '085867333455'),
-(103, 'Musyahid', 'Gang Slamet 1', '085867333607');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `data_barang`
+-- Struktur dari tabel `detail_penjualan`
 --
 
-CREATE TABLE `data_barang` (
-  `kodebarang` varchar(50) NOT NULL,
-  `namabarang` varchar(50) NOT NULL,
-  `kategoribarang` varchar(50) NOT NULL,
-  `satuanstok` varchar(50) NOT NULL,
-  `deskripsi` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `data_barang`
---
-
-INSERT INTO `data_barang` (`kodebarang`, `namabarang`, `kategoribarang`, `satuanstok`, `deskripsi`) VALUES
-('101JP', 'Jagung Putih Solo', 'Benih', 'Kg', 'Benih Unggul Jagung Putih dengan kelas inpari (unggul)'),
-('101KH', 'Kedelai Hitam Yogya', 'Benih', 'Kg', 'Benih Unggul Kedelai Hitam Yogya  dengan kelas inpari (unggul)'),
-('101PH', 'Padi Hitam Solo', 'Benih', 'Kg', 'Benih Unggul Padi Hitam Inpari  dengan kelas inpari (unggul)'),
-('102KH', 'Kedelai Hitam Soloraya', 'Benih', 'Kg', 'Benih Unggul Kedelai Hitam Soloraya dengan kelas inpari (unggul)'),
-('102PH', 'Padi Hitam Yogya', 'Benih', 'Kg', 'Benih Unggul Padi Hitam Yogya  dengan kelas inpari (unggul)');
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `data_supplier`
---
-
-CREATE TABLE `data_supplier` (
-  `kodesupplier` varchar(50) NOT NULL,
-  `namasupplier` varchar(200) NOT NULL,
-  `telpsupplier` varchar(12) NOT NULL,
-  `emailsupplier` varchar(50) NOT NULL,
-  `namaoutlet` varchar(50) NOT NULL,
-  `alamatoutlet` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `data_supplier`
---
-
-INSERT INTO `data_supplier` (`kodesupplier`, `namasupplier`, `telpsupplier`, `emailsupplier`, `namaoutlet`, `alamatoutlet`) VALUES
-('101BB', 'Suparno', '085867333460', 'udbenihberkah@gmail.com', 'UD Benih Berkah', 'Yogyakarta'),
-('101JB', 'Kaka', '085867333463', 'udjafarberkah@gmail.com', 'UD Jafar Berkah', 'Solo'),
-('101JGB', 'Suparno', '085867333464', 'udjagungberkah@gmail.com', 'UD Jagung Berkah', 'Solo'),
-('101KB', 'Amin', '085867333468', 'udkedelaiberkah@gmail.com', 'UD Kedelai Berkah', 'Yogyakarta'),
-('101PB', 'Tono', '085867333469', 'udpadiberkah@gmail.com', 'UD Padi Berkah', 'Yogyakarta');
-
---
--- Trigger `data_supplier`
---
-DELIMITER $$
-CREATE TRIGGER `after_supplier` AFTER UPDATE ON `data_supplier` FOR EACH ROW BEGIN
-INSERT INTO `history_data_supplier`(`kodesupplier`, `namasupplier`, `telpsupplier`, `emailsupplier`, `namaoutlet`, `alamatoutlet`, `tgl_ubah`) VALUES (old.kodesupplier,old.namasupplier,old.telpsupplier,old.emailsupplier,old.namaoutlet,old.alamatoutlet,now());
-
-
-END
-$$
-DELIMITER ;
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `historykeluar`
---
-
-CREATE TABLE `historykeluar` (
-  `kodekeluar` varchar(50) NOT NULL,
-  `tglkeluar` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `historymasuk`
---
-
-CREATE TABLE `historymasuk` (
-  `kodemasuk` varchar(50) NOT NULL,
-  `tglmasuk` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `historyrefund`
---
-
-CREATE TABLE `historyrefund` (
-  `koderefund` varchar(50) NOT NULL,
-  `tglrefund` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `detail_penjualan` (
+  `bayar` int(11) NOT NULL,
+  `diskon` int(11) NOT NULL,
+  `kembali` int(11) NOT NULL,
+  `pdiskon` int(11) NOT NULL,
+  `total` int(11) NOT NULL,
+  `kode_barang` varchar(50) NOT NULL,
+  `kode_penjualan` int(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -187,54 +101,55 @@ CREATE TABLE `historyrefund` (
 --
 
 CREATE TABLE `history_data_supplier` (
-  `kodesupplier` varchar(50) NOT NULL,
-  `namasupplier` varchar(200) NOT NULL,
-  `telpsupplier` varchar(12) NOT NULL,
-  `emailsupplier` varchar(50) NOT NULL,
-  `namaoutlet` varchar(50) NOT NULL,
-  `alamatoutlet` text NOT NULL,
+  `id_supplier` varchar(50) NOT NULL,
+  `nama_supplier` varchar(200) NOT NULL,
+  `telp_supplier` varchar(12) NOT NULL,
+  `email_supplier` varchar(50) NOT NULL,
+  `alamat_supplier` text NOT NULL,
   `tgl_ubah` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
 --
--- Struktur dari tabel `infopelanggan`
+-- Dumping data untuk tabel `history_data_supplier`
 --
 
-CREATE TABLE `infopelanggan` (
-  `memberID` varchar(5) NOT NULL,
-  `namapelanggan` varchar(50) NOT NULL,
-  `tlppelanggan` varchar(12) NOT NULL,
-  `emailpelanggan` varchar(50) NOT NULL,
-  `alamatpelanggan` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `infopenjualan`
---
-
-CREATE TABLE `infopenjualan` (
-  `kodeproduk` varchar(50) NOT NULL,
-  `namaproduk` varchar(50) NOT NULL,
-  `stok` int(11) NOT NULL,
-  `total` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `history_data_supplier` (`id_supplier`, `nama_supplier`, `telp_supplier`, `email_supplier`, `alamat_supplier`, `tgl_ubah`) VALUES
+('S02', 'Eduward', '085867333477', 'eduward@gmail.com', 'Demang', '2019-12-17 11:21:28'),
+('S02', 'Eduward', '', 'eduward@gmail.com', 'Demang', '2019-12-17 11:21:43'),
+('S02', 'Eduward', '085867333460', '', 'Demang', '2019-12-17 11:26:12'),
+('S02', 'Eduward', '085867333460', 'eduward@gmail.com', 'Demang', '2019-12-18 06:49:01'),
+('S02', 'Eduward', '085867333460', '', 'Demang', '2019-12-18 19:10:47'),
+('S02', 'Eduward', '085867333460', 'eduward', 'Demang', '2019-12-18 19:10:57'),
+('S02', 'Eduward', '085867333460', 'eduward@gmail.com', 'Demang', '2019-12-18 19:14:04'),
+('S03', 'Abror', '085867333666', '', 'Bojongsoang', '2019-12-18 19:14:44'),
+('S04', 'Rayan', '085867333467', 'rayan@gmail.com', 'Bandung', '2019-12-19 09:12:07'),
+('S04', 'Rayan', '085867333467', 'rayan@gmail.com', 'Demang', '2019-12-19 11:59:29');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `kartustok`
+-- Struktur dari tabel `kategori`
 --
 
-CREATE TABLE `kartustok` (
-  `kodekartu` varchar(20) NOT NULL,
-  `kodebarang` varchar(50) NOT NULL,
-  `jumlahbarang` int(11) NOT NULL,
-  `hargajualstok` int(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `kategori` (
+  `id_kategori` int(11) NOT NULL,
+  `jenis_kategori` varchar(30) CHARACTER SET latin1 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `pelaggan`
+--
+
+CREATE TABLE `pelaggan` (
+  `id_pelanggan` int(11) NOT NULL,
+  `nama_pelanggan` varchar(50) CHARACTER SET latin1 NOT NULL,
+  `alamat` text NOT NULL,
+  `telepon` varchar(15) CHARACTER SET latin1 NOT NULL,
+  `email` varchar(50) CHARACTER SET latin1 NOT NULL,
+  `id_pengguna` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -244,208 +159,261 @@ CREATE TABLE `kartustok` (
 
 CREATE TABLE `pengadaan_barang` (
   `idpengadaan` int(11) NOT NULL,
-  `tglpengadaan` varchar(255) NOT NULL,
+  `tglpengadaan` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `jumlahbeli` int(10) NOT NULL,
   `hargabeli` int(10) NOT NULL,
-  `kodebarang` varchar(50) NOT NULL,
-  `kodesupplier` varchar(50) NOT NULL,
+  `id_permintaan` int(11) NOT NULL,
+  `kode_barang` varchar(50) NOT NULL,
+  `id_supplier` varchar(50) NOT NULL,
   `total` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
 --
--- Struktur dari tabel `pengelola_supplier`
+-- Dumping data untuk tabel `pengadaan_barang`
 --
 
-CREATE TABLE `pengelola_supplier` (
-  `id` varchar(10) NOT NULL,
-  `fullname` varchar(50) NOT NULL,
-  `username` varchar(30) NOT NULL,
-  `password` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `pengelola_supplier`
---
-
-INSERT INTO `pengelola_supplier` (`id`, `fullname`, `username`, `password`) VALUES
-('101', 'Bagaswara', 'bagas', 'jkt48'),
-('102', 'Monalisa', 'Mona', 'monalisacantik'),
-('103', 'Martinus', 'martin', '12345'),
-('104', 'Abdurahman Arsyad', 'Arsyad', 'mamasayange');
+INSERT INTO `pengadaan_barang` (`idpengadaan`, `tglpengadaan`, `jumlahbeli`, `hargabeli`, `id_permintaan`, `kode_barang`, `id_supplier`, `total`) VALUES
+(8, '2020-03-02 04:51:12', 105, 8000, 1, 'PA01', 'S01', '840000'),
+(9, '2020-03-02 04:51:59', 65, 9000, 2, 'PU01', 'S02', '585000');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `trans`
+-- Struktur dari tabel `pengembalian_barang`
 --
 
-CREATE TABLE `trans` (
-  `idprod` int(11) NOT NULL,
-  `namaprod` varchar(15) NOT NULL,
-  `jml` int(11) NOT NULL,
-  `hrg` int(11) NOT NULL,
-  `tothrg` int(11) NOT NULL
+CREATE TABLE `pengembalian_barang` (
+  `id_pengembalian` int(11) NOT NULL,
+  `tgl_pengembalian` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `jumlah_pengembalian` int(11) NOT NULL,
+  `alasan_pengembalian` text NOT NULL,
+  `idpengadaan` int(11) NOT NULL,
+  `id_supplier` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `trans`
---
-
-INSERT INTO `trans` (`idprod`, `namaprod`, `jml`, `hrg`, `tothrg`) VALUES
-(1, 'bit jagung', 10, 10000, 100000),
-(2, 'bit padi', 3, 23000, 69000),
-(3, 'bit tomat', 20, 2000, 40000),
-(4, 'bit wortel', 16, 2000, 38000),
-(5, 'bit timun', 40, 1500, 60000);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `user`
+-- Struktur dari tabel `pengguna`
 --
 
-CREATE TABLE `user` (
-  `id` int(11) NOT NULL,
-  `name` varchar(128) NOT NULL,
-  `email` varchar(128) NOT NULL,
-  `image` varchar(123) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `role_id` int(11) NOT NULL,
-  `is_active` int(1) NOT NULL,
-  `date_create` int(11) NOT NULL
+CREATE TABLE `pengguna` (
+  `id_pengguna` int(11) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `nama` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `level` varchar(20) NOT NULL,
+  `foto` varchar(225) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `penjualan`
+--
+
+CREATE TABLE `penjualan` (
+  `kode_penjualan` varchar(20) CHARACTER SET latin1 NOT NULL,
+  `kode_barcode` varchar(50) CHARACTER SET latin1 NOT NULL,
+  `jumlah` int(11) NOT NULL,
+  `total` int(11) NOT NULL,
+  `tgl_penjualan` date NOT NULL,
+  `id_pelanggan` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `permintaan_barang`
+--
+
+CREATE TABLE `permintaan_barang` (
+  `id_permintaan` int(11) NOT NULL,
+  `tgl_permintaan` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `jumlah_permintaan` int(11) NOT NULL,
+  `id_supplier` varchar(50) NOT NULL,
+  `kode_barang` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `permintaan_barang`
+--
+
+INSERT INTO `permintaan_barang` (`id_permintaan`, `tgl_permintaan`, `jumlah_permintaan`, `id_supplier`, `kode_barang`) VALUES
+(1, '2019-12-26 03:15:40', 20, 'S02', 'PU01'),
+(2, '2019-12-19 02:12:49', 40, 'S02', 'PA01');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `supplier`
+--
+
+CREATE TABLE `supplier` (
+  `id_supplier` varchar(50) NOT NULL,
+  `nama_supplier` varchar(200) NOT NULL,
+  `telp_supplier` varchar(12) NOT NULL,
+  `email_supplier` varchar(50) NOT NULL,
+  `alamat_supplier` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `supplier`
+--
+
+INSERT INTO `supplier` (`id_supplier`, `nama_supplier`, `telp_supplier`, `email_supplier`, `alamat_supplier`) VALUES
+('S01', 'Angga', '085867333477', 'angga@gmail.com', 'Cikoneng'),
+('S02', 'Eduward', '085867333460', 'eduward@gmail.com', 'Demang'),
+('S03', 'Abror', '085867333666', 'abror@gmail.com', 'Bojongsoang'),
+('S04', 'Rayan', '085867333467', 'rayan@gmail.com', 'Bandung');
+
+--
+-- Trigger `supplier`
+--
+DELIMITER $$
+CREATE TRIGGER `after_supplier` AFTER UPDATE ON `supplier` FOR EACH ROW BEGIN
+INSERT INTO `history_data_supplier`(`id_supplier`, `nama_supplier`, `telp_supplier`, `email_supplier`, `alamat_supplier`, `tgl_ubah`) VALUES (old.id_supplier,old.nama_supplier,old.telp_supplier,old.email_supplier,old.alamat_supplier,now());
+
+
+END
+$$
+DELIMITER ;
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `barangkeluar`
+-- Indeks untuk tabel `akun`
 --
-ALTER TABLE `barangkeluar`
-  ADD PRIMARY KEY (`kodekeluar`),
-  ADD KEY `kodekartu` (`kodekartu`);
+ALTER TABLE `akun`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `barangmasuk`
+-- Indeks untuk tabel `barang`
 --
-ALTER TABLE `barangmasuk`
-  ADD PRIMARY KEY (`kodemasuk`),
-  ADD KEY `kodekartu` (`kodekartu`);
+ALTER TABLE `barang`
+  ADD PRIMARY KEY (`kode_barang`),
+  ADD KEY `id_kategori` (`id_kategori`);
 
 --
--- Indexes for table `barangrefund`
+-- Indeks untuk tabel `detail_penjualan`
 --
-ALTER TABLE `barangrefund`
-  ADD PRIMARY KEY (`koderefund`),
-  ADD KEY `kodekartu` (`kodekartu`);
+ALTER TABLE `detail_penjualan`
+  ADD KEY `kode_barang` (`kode_barang`),
+  ADD KEY `kode_penjualan` (`kode_penjualan`);
 
 --
--- Indexes for table `data_barang`
+-- Indeks untuk tabel `kategori`
 --
-ALTER TABLE `data_barang`
-  ADD PRIMARY KEY (`kodebarang`);
+ALTER TABLE `kategori`
+  ADD PRIMARY KEY (`id_kategori`);
 
 --
--- Indexes for table `data_supplier`
+-- Indeks untuk tabel `pelaggan`
 --
-ALTER TABLE `data_supplier`
-  ADD PRIMARY KEY (`kodesupplier`);
+ALTER TABLE `pelaggan`
+  ADD PRIMARY KEY (`id_pelanggan`),
+  ADD KEY `id_pengguna` (`id_pengguna`);
 
 --
--- Indexes for table `infopelanggan`
---
-ALTER TABLE `infopelanggan`
-  ADD PRIMARY KEY (`memberID`);
-
---
--- Indexes for table `infopenjualan`
---
-ALTER TABLE `infopenjualan`
-  ADD KEY `kodeproduk` (`kodeproduk`);
-
---
--- Indexes for table `kartustok`
---
-ALTER TABLE `kartustok`
-  ADD PRIMARY KEY (`kodekartu`),
-  ADD KEY `kodebarang1` (`kodebarang`);
-
---
--- Indexes for table `pengadaan_barang`
+-- Indeks untuk tabel `pengadaan_barang`
 --
 ALTER TABLE `pengadaan_barang`
   ADD PRIMARY KEY (`idpengadaan`),
-  ADD KEY `kodebarang` (`kodebarang`),
-  ADD KEY `kodesupplier` (`kodesupplier`);
+  ADD KEY `kodebarang` (`kode_barang`),
+  ADD KEY `id_supplier` (`id_supplier`),
+  ADD KEY `id_permintaan` (`id_permintaan`);
 
 --
--- Indexes for table `pengelola_supplier`
+-- Indeks untuk tabel `pengembalian_barang`
 --
-ALTER TABLE `pengelola_supplier`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `pengembalian_barang`
+  ADD PRIMARY KEY (`id_pengembalian`),
+  ADD KEY `idpengadaan` (`idpengadaan`),
+  ADD KEY `id_supplier` (`id_supplier`);
 
 --
--- Indexes for table `user`
+-- Indeks untuk tabel `pengguna`
 --
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `pengguna`
+  ADD PRIMARY KEY (`id_pengguna`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- Indeks untuk tabel `penjualan`
+--
+ALTER TABLE `penjualan`
+  ADD PRIMARY KEY (`kode_penjualan`),
+  ADD KEY `id_pelanggan` (`id_pelanggan`);
+
+--
+-- Indeks untuk tabel `permintaan_barang`
+--
+ALTER TABLE `permintaan_barang`
+  ADD PRIMARY KEY (`id_permintaan`),
+  ADD KEY `kode_barang` (`kode_barang`),
+  ADD KEY `id_supplier` (`id_supplier`);
+
+--
+-- Indeks untuk tabel `supplier`
+--
+ALTER TABLE `supplier`
+  ADD PRIMARY KEY (`id_supplier`);
+
+--
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `barangkeluar`
---
-ALTER TABLE `barangkeluar`
-  MODIFY `kodekeluar` int(12) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `barangmasuk`
---
-ALTER TABLE `barangmasuk`
-  MODIFY `kodemasuk` int(12) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `pengadaan_barang`
+-- AUTO_INCREMENT untuk tabel `pengadaan_barang`
 --
 ALTER TABLE `pengadaan_barang`
-  MODIFY `idpengadaan` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idpengadaan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT untuk tabel `pengembalian_barang`
+--
+ALTER TABLE `pengembalian_barang`
+  MODIFY `id_pengembalian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT untuk tabel `permintaan_barang`
+--
+ALTER TABLE `permintaan_barang`
+  MODIFY `id_permintaan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
 
 --
--- Ketidakleluasaan untuk tabel `barangkeluar`
+-- Ketidakleluasaan untuk tabel `kategori`
 --
-ALTER TABLE `barangkeluar`
-  ADD CONSTRAINT `barangkeluar_ibfk_1` FOREIGN KEY (`kodekartu`) REFERENCES `kartustok` (`kodekartu`);
-
---
--- Ketidakleluasaan untuk tabel `barangmasuk`
---
-ALTER TABLE `barangmasuk`
-  ADD CONSTRAINT `barangmasuk_ibfk_1` FOREIGN KEY (`kodekartu`) REFERENCES `kartustok` (`kodekartu`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Ketidakleluasaan untuk tabel `barangrefund`
---
-ALTER TABLE `barangrefund`
-  ADD CONSTRAINT `barangrefund_ibfk_1` FOREIGN KEY (`kodekartu`) REFERENCES `kartustok` (`kodekartu`);
-
---
--- Ketidakleluasaan untuk tabel `kartustok`
---
-ALTER TABLE `kartustok`
-  ADD CONSTRAINT `kartustok_ibfk_1` FOREIGN KEY (`kodebarang`) REFERENCES `data_barang` (`kodebarang`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `kategori`
+  ADD CONSTRAINT `kategori_ibfk_1` FOREIGN KEY (`id_kategori`) REFERENCES `barang` (`id_kategori`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `pengadaan_barang`
 --
 ALTER TABLE `pengadaan_barang`
-  ADD CONSTRAINT `pengadaan_barang_ibfk_1` FOREIGN KEY (`kodebarang`) REFERENCES `data_barang` (`kodebarang`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `pengadaan_barang_ibfk_2` FOREIGN KEY (`kodesupplier`) REFERENCES `data_supplier` (`kodesupplier`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `pengadaan_barang_ibfk_1` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `pengadaan_barang_ibfk_2` FOREIGN KEY (`kode_barang`) REFERENCES `barang` (`kode_barang`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `pengadaan_barang_ibfk_3` FOREIGN KEY (`id_permintaan`) REFERENCES `permintaan_barang` (`id_permintaan`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `pengembalian_barang`
+--
+ALTER TABLE `pengembalian_barang`
+  ADD CONSTRAINT `pengembalian_barang_ibfk_1` FOREIGN KEY (`idpengadaan`) REFERENCES `pengadaan_barang` (`idpengadaan`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `pengembalian_barang_ibfk_2` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `permintaan_barang`
+--
+ALTER TABLE `permintaan_barang`
+  ADD CONSTRAINT `permintaan_barang_ibfk_2` FOREIGN KEY (`kode_barang`) REFERENCES `barang` (`kode_barang`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `permintaan_barang_ibfk_3` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
